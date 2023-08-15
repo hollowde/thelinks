@@ -48,6 +48,20 @@ USER wagtail
 # Collect static files.
 RUN python manage.py collectstatic --noinput --clear
 
+# netcat (send and receive data) setup
+# gcc (turns human readable code into instructions computer understands) setup
+# postgresql (store and manage large amounts of data) setup
+RUN apt-get update \
+    && apt-get -y install netcat gcc postgresql \
+    && apt-get clean
+
+#libproj and gdal setup
+
+RUN apt-get update \
+    && apt-get install -y binutils libproj-dev gdal-bin python-gdal \
+    python3-gdal
+
+RUN pip install --upgrade pip
 # Runtime command that executes when "docker run" is called, it does the
 # following:
 #   1. Migrate the database.
