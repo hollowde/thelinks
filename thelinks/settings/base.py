@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import environ
 
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
@@ -20,6 +21,9 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
+env = environ.Env(DEBUG=(bool,False))
+
+environ.Env.read_env(env_file=".env")
 
 # Application definition
 
@@ -88,9 +92,13 @@ WSGI_APPLICATION = "thelinks.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    'dafault': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': env('POSTGRES_DBNAME'),
+        'USER': env("POSTGRES_USER"),
+        'PASSWORD':env("POSTGRES_PASS"),
+        'HOST': env("POSTGRES_HOST"),
+        'PORT': env("POSTGRES_PORT"),
     }
 }
 
