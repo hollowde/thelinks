@@ -4,6 +4,10 @@ volumes:
   dbbackups:
   postgis-data:
 
+secrets:
+  secret_key:
+    external: true
+
 services:
   api:
     build:
@@ -12,6 +16,8 @@ services:
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
+    environment:
+      - SECRET_KEY_FILE=/run/secrets/secret_key
     ports:
       - 8000:8000
     env_file:
@@ -20,7 +26,7 @@ services:
     depends_on:
       - postgres-db
     networks:
-      - thelinks
+      - api
 
   postgres-db:
     image: kartoza/postgis:15-3.3
@@ -50,18 +56,18 @@ services:
         - dbbackups:/backups
       environment:
         - DUMPPREFIX=PG_db
-        - POSTGRES_USER=${POSTGRES_USER}
-        - POSTGRES_PASS=${POSTGRES_PASS}
+        - POSTGRES_USER=${BACKUP_USER}
+        - POSTGRES_PASS=${BACKUP_PASS}
         - POSTGRES_PORT=${POSTGRES_PORT}
         - POSTGRES_HOST=${POSTGRES_HOST}
       restart: on-failure
       networks:
-        - thelinks
+        - api
       depends_on:
         postgres-db:
           condition: service_healthy
 
 networks:
-  thelinks:
+  api:
     driver: bridge
 
