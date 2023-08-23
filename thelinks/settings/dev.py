@@ -5,10 +5,10 @@ from .base import *
 DEBUG = env("DEBUG")
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: define the correct hosts in production!
-ALLOWED_HOSTS = env("ALLOWED_HOSTS").split("")
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(',')
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
