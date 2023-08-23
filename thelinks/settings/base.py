@@ -21,7 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-env = environ.Env(DEBUG=(bool, False))
+env = environ.Env(DEBUG=(bool, False),
+                  ALLOWED_HOSTS=(list, []))
 
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
@@ -96,7 +97,7 @@ WSGI_APPLICATION = "thelinks.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "dafault": {
+    "default": {
         "ENGINE": "django.contrib.gis.db.backends.postgis",
         'NAME': os.environ.get("POSTGRES_DB"),
         'USER': os.environ.get("POSTGRES_USER"),
