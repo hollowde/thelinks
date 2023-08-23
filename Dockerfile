@@ -56,8 +56,8 @@ RUN apt-get update \
     && apt-get clean
 
 #libproj and gdal setup
-
-RUN apt-get update \
+RUN add-apt-repository ppa:ubuntugis/ppa \
+    apt-get update \
     && apt-get install -y binutils libproj-dev gdal-bin python-gdal \
     python3-gdal
 
