@@ -53,14 +53,26 @@ RUN python manage.py collectstatic --noinput --clear
 # postgresql (store and manage large amounts of data) setup
 RUN apt-get update \
     && apt-get -y install netcat gcc postgresql \
-    && apt-get clean
+    && apt-get clean \
 
+RUN apt-get update
+RUN apt-get install -y software-properties-common && apt-get update
+RUN  add-apt-repository ppa:ubuntugis/ppa &&  apt-get update
 #libproj and gdal setup
 RUN apt-get update \
     && apt-get install -y binutils libproj-dev gdal-bin python-gdal \
+    libgdal-dev \
     python3-gdal
 
+RUN apt-get update \
+     && apt-get install --yes libgdal-dev
+
+ARG CPLUS_INCLUDE_PATH=/usr/include/gdal
+ARG C_INCLUDE_PATH=/usr/include/gdal
+RUN pip install GDAL
+
 RUN pip install --upgrade pip
+
 # Runtime command that executes when "docker run" is called, it does the
 # following:
 #   1. Migrate the database.
