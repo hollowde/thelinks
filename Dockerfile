@@ -55,6 +55,17 @@ RUN apt-get update \
     && apt-get -y install netcat gcc postgresql \
     && apt-get clean \
 
+RUN apk add --no-cache gcc
+RUN apk add --no-cache gdal
+RUN apk add --no-cache gdal-dev
+RUN apk add --no-cache build-base
+RUN apk add --no-cache zlib
+
+RUN export CPLUS_INCLUDE_PATH=/usr/include/gdal
+RUN export C_INCLUDE_PATH=/usr/include/gdal
+RUN export LDFLAGS="-L/usr/local/opt/zlib/lib"
+RUN export CPPFLAGS="-I/usr/local/opt/zlib/include"
+
 RUN apt-get update
 RUN apt-get install -y software-properties-common && apt-get update
 RUN  add-apt-repository ppa:ubuntugis/ppa &&  apt-get update
@@ -69,7 +80,7 @@ RUN apt-get update \
 
 ARG CPLUS_INCLUDE_PATH=/usr/include/gdal
 ARG C_INCLUDE_PATH=/usr/include/gdal
-RUN pip install GDAL
+
 
 RUN pip install --upgrade pip
 
