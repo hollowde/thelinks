@@ -45,9 +45,7 @@ COPY --chown=wagtail:wagtail . .
 # Use user "wagtail" to run the build commands below and the server itself.
 USER wagtail
 
-RUN apt-get update
-RUN apt-get install -y software-properties-common && apt-get update
-RUN  add-apt-repository ppa:ubuntugis/ppa &&  apt-get update
+
 #libproj and gdal setup
 RUN apt-get update \
     && apt-get install -y binutils libproj-dev gdal-bin python-gdal \
