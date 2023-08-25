@@ -24,6 +24,19 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
     libwebp-dev \
  && rm -rf /var/lib/apt/lists/*
 
+# netcat (send and receive data) setup
+# gcc (turns human readable code into instructions computer understands) setup
+# postgresql (store and manage large amounts of data) setup
+
+RUN apt-get update \
+    && apt-get -y install netcat gcc postgresql \
+    && apt-get clean \
+
+RUN apt-get update \
+    && apt-get install -y binutils libproj-dev gdal-bin python-gdal \
+    libgdal-dev \
+    python3-gdal
+
 # Install the application server.
 RUN pip install "gunicorn==20.0.4"
 
@@ -45,29 +58,8 @@ COPY --chown=wagtail:wagtail . .
 # Use user "wagtail" to run the build commands below and the server itself.
 USER wagtail
 
-
-#libproj and gdal setup
-RUN apt-get update \
-    && apt-get install -y binutils libproj-dev gdal-bin python-gdal \
-    libgdal-dev \
-    python3-gdal
-
 # Collect static files.
 RUN python manage.py collectstatic --noinput --clear
-
-# netcat (send and receive data) setup
-# gcc (turns human readable code into instructions computer understands) setup
-# postgresql (store and manage large amounts of data) setup
-RUN apt-get update \
-    && apt-get -y install netcat gcc postgresql \
-    && apt-get clean \
-
-
-#libproj and gdal setup
-RUN apt-get update \
-    && apt-get install -y binutils libproj-dev gdal-bin python-gdal \
-    libgdal-dev \
-    python3-gdal
 
 
 RUN pip install --upgrade pip
