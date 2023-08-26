@@ -37,8 +37,6 @@ RUN apt-get update \
     libgdal-dev \
     python3-gdal
 
-RUN pip install --upgrade pip
-
 # Install the application server.
 RUN pip install "gunicorn==20.0.4"
 
@@ -64,7 +62,7 @@ USER wagtail
 RUN python manage.py collectstatic --noinput --clear
 
 
-#RUN pip install --upgrade pip
+RUN pip install --upgrade pip
 
 # Runtime command that executes when "docker run" is called, it does the
 # following:
