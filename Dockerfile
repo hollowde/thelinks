@@ -30,12 +30,14 @@ RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-r
 
 RUN apt-get update \
     && apt-get -y install netcat gcc postgresql \
-    && apt-get clean \
+    && apt-get clean
 
 RUN apt-get update \
     && apt-get install -y binutils libproj-dev gdal-bin python-gdal \
     libgdal-dev \
     python3-gdal
+
+RUN pip install --upgrade pip
 
 # Install the application server.
 RUN pip install "gunicorn==20.0.4"
@@ -62,7 +64,7 @@ USER wagtail
 RUN python manage.py collectstatic --noinput --clear
 
 
-RUN pip install --upgrade pip
+#RUN pip install --upgrade pip
 
 # Runtime command that executes when "docker run" is called, it does the
 # following:
